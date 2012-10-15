@@ -25,28 +25,41 @@ html lang="en"
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.brand href="#"Magaz
+          = link_to "Company", root_path, :class => "brand"
           .container.nav-collapse
             ul.nav
               li= link_to "Link 1", "/path1"
               li= link_to "Link 2", "/path2"
               li= link_to "Link 3", "/path3"
+              - if can? :access, :rails_admin
+                li= link_to "Admin", "/admin"
 
     .container
 
       .content
         .row
           .span9
-            = bootstrap_flash
-            = yield
+            .user-content
+              = bootstrap_flash
+              = yield
           .span3
             .well.sidebar-nav
-              h3 Sidebar
               ul.nav.nav-list
-                li.nav-header Sidebar
-                li= link_to "Link 1", "/path1"
-                li= link_to "Link 2", "/path2"
-                li= link_to "Link 3", "/path3"
+                li.nav-header user panel
+                - if current_user.nil?
+                  li= link_to "Sign In", new_user_session_path
+                  li= link_to  "Sign Up", new_user_registration_path
+                - else
+                  li You signed as 
+                  = link_to "#{current_user.email}", edit_user_registration_path
+                  li
+                  = link_to "Sign Out", destroy_user_session_path, :method => :delete
+            .well.sidebar-nav
+              ul.nav.nav-list
+                li.nav-header navigation
+                li= link_to "Link 1", "#"
+                li= link_to "Link 2", "#"
+                li= link_to "Link 3", "#"      
     
       footer
         p &copy; Company 2012

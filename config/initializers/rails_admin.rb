@@ -3,6 +3,7 @@
 
 RailsAdmin.config do |config|
 
+  config.authorize_with :cancan
 
   ################  Global configuration  ################
 
@@ -49,6 +50,55 @@ RailsAdmin.config do |config|
 
   # Now you probably need to tour the wiki a bit: https://github.com/sferik/rails_admin/wiki
   # Anyway, here is how RailsAdmin saw your application's models when you ran the initializer:
-
+  config.model Category do
+    edit do
+      field :name
+    end  
+  end
+  config.model Subcategory do
+    create do
+      exclude_fields :positions
+    end  
+  end 
+  config.model User do
+  #   # Found associations:
+    # Found columns:
+      configure :id, :integer 
+      configure :email, :string 
+      configure :password, :password         # Hidden 
+      configure :password_confirmation, :password         # Hidden  
+      configure :role, :enum do
+        enum do
+          # except = bindings[:object].id
+          User.role.options
+        end
+      end
+    list do; end
+    export do; end
+    show do; end
+    edit do
+      field :email, :string 
+      field :password, :password         # Hidden 
+      field :password_confirmation, :password         # Hidden  
+      field :role, :enum do
+        enum do
+          # except = bindings[:object].id
+          User.role.options
+        end
+      end
+    end
+    create do 
+      field :email, :string 
+      field :password, :password         # Hidden 
+      field :password_confirmation, :password         # Hidden  
+      field :role, :enum do
+        enum do
+          # except = bindings[:object].id
+          User.role.options
+        end
+      end
+    end
+    update do; end
+   end
 
 end

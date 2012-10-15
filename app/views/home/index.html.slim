@@ -1,1 +1,14 @@
 h1	"Some text on home page"
+table.table.table-hover
+	thead
+		tr
+			th №
+			th Наименование
+			th Описание
+			th Изображение
+	- @positions.each_with_index do |position, index|
+		tr
+			td= index+1
+			td= position.name
+			td= position.description
+			td= image_tag position.logo.url(:thumb), :class => "img-rounded"
